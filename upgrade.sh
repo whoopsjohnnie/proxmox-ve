@@ -61,7 +61,7 @@ cat >/etc/default/keyboard <<'EOF'
 # KEYBOARD CONFIGURATION FILE
 # Consult the keyboard(5) manual page.
 XKBMODEL="pc105"
-XKBLAYOUT="pt"
+XKBLAYOUT="us"
 XKBVARIANT=""
 XKBOPTIONS=""
 KEYMAP="pt-latin1"

@@ -10,7 +10,21 @@ rm -f /etc/apt/sources.list.d/pve-enterprise.list
 echo 'deb http://download.proxmox.com/debian/pve buster pve-no-subscription' >/etc/apt/sources.list.d/pve.list
 
 # switch the apt mirror from us to nl.
-sed -i -E 's,ftp\.us\.debian,ftp.nl.debian,' /etc/apt/sources.list
+# sed -i -E 's,ftp\.us\.debian,ftp.nl.debian,' /etc/apt/sources.list
+
+# set the timezone.
+# ln -fs /usr/share/zoneinfo/Europe/Lisbon /etc/localtime
+# ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
+# dpkg-reconfigure tzdata
+
+# E: Release file for http://security.debian.org/dists/buster/updates/InRelease is not valid yet (invalid for another 2h 30min 1s). Updates for this repository will not be applied.
+timedatectl
+systemctl status systemd-timesyncd.service
+systemctl restart systemd-timesyncd.service
+timedatectl set-ntp true
+timedatectl
+timedatectl set-timezone America/Los_Angeles
+timedatectl
 
 # upgrade.
 apt-get update
@@ -56,8 +70,9 @@ EOF
 dpkg-reconfigure keyboard-configuration
 
 # set the timezone.
-ln -fs /usr/share/zoneinfo/Europe/Lisbon /etc/localtime
-dpkg-reconfigure tzdata
+# ln -fs /usr/share/zoneinfo/Europe/Lisbon /etc/localtime
+# ln -fs /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
+# dpkg-reconfigure tzdata
 
 # reboot.
 nohup bash -c "ps -eo pid,comm | awk '/sshd/{print \$1}' | xargs kill; sync; reboot"
